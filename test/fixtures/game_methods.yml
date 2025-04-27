@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  game: one
+  ruby_method: one
+  order: 1
+
+two:
+  game: two
+  ruby_method: two
+  order: 1

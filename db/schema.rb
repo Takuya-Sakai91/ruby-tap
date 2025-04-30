@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_04_27_062901) do
+ActiveRecord::Schema[7.1].define(version: 2025_04_30_131731) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -21,6 +21,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_27_062901) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["game_id"], name: "index_game_methods_on_game_id"
+    t.index ["ruby_method_id", "game_id"], name: "index_game_methods_on_ruby_method_id_and_game_id", unique: true
     t.index ["ruby_method_id"], name: "index_game_methods_on_ruby_method_id"
   end
 
@@ -43,6 +44,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_27_062901) do
     t.string "class_name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name", "ruby_module_id"], name: "index_ruby_methods_on_name_and_ruby_module_id", unique: true
     t.index ["ruby_module_id"], name: "index_ruby_methods_on_ruby_module_id"
   end
 

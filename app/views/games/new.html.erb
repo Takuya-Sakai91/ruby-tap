@@ -1,0 +1,11 @@
+<h1>RubyTap</h1>
+<div>
+  <p>Rubyのメソッドを使ったタイピングゲームです。</p>
+  <p>60秒間でできるだけ多くのRubyメソッドを正確にタイピングしましょう!</p>
+</div>
+
+<div>
+  <%= form_with url: games_path, method: :post do |f| %>
+    <%= f.submit "ゲームスタート", class: "font-bold " %>
+  <% end %>
+</div>

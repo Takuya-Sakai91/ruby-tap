@@ -1,27 +1,25 @@
-<div class="flex">
-  <div class="mx-auto">
-    <div class="mb-4 text-xl">
-      <span id="timer" class="font-bold text-2xl"><%= @game.remaining_time %></span>秒
-    </div>
+<div class="mx-auto">
+  <div class="mb-4 text-xl">
+    <span id="timer" class="font-bold text-2xl"><%= @game.remaining_time %></span>秒
+  </div>
 
-    <div>
-      <div class="font-bold text-2xl">Array#each</div>
-    </div>
+  <div>
+    <div class="font-bold text-2xl">Array#each</div>
+  </div>
 
-    <div>
-      <input type="text" placeholder="ここにタイピング" class="border">
-    </div>
+  <div>
+    <input type="text" placeholder="ここにタイピング" class="border">
+  </div>
 
-    <div>
-      <div class="px-3">
-        正解: <span id="correct-count" class="font-bold"><%= @game.correct_count %></span>
-      </div>
-      <div class="px-3">
-        ミス: <span id="wrong-count" class="font-bold"><%= @game.wrong_count %></span>
-      </div>
-      <div class="px-3">
-        スコア: <span id="score" class="font-bold"><%= @game.score %></span>
-      </div>
+  <div>
+    <div class="px-3">
+      正解: <span id="correct-count" class="font-bold"><%= @game.correct_count %></span>
+    </div>
+    <div class="px-3">
+      ミス: <span id="wrong-count" class="font-bold"><%= @game.wrong_count %></span>
+    </div>
+    <div class="px-3">
+      スコア: <span id="score" class="font-bold"><%= @game.score %></span>
     </div>
   </div>
 </div>

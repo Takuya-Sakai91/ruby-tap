@@ -1,0 +1,17 @@
+<div class="mx-auto">
+  <h1 class="text-2xl font-bold">タイピング結果</h1>
+  <div>
+    <h2>正解数</h2>
+    <p data-typing-target="correctCount" class="text-2xl font-bold"><%= @game.correct_count %></p>
+  </div>
+  <div>
+    <h2>ミス数</h2>
+    <p data-typing-target="wrongCount" class="text-2xl font-bold"><%= @game.wrong_count %></p>
+  </div>
+  <div>
+    <%= link_to 'もう一度プレイ', new_game_path %>
+  </div>
+  <div>
+    <%= link_to 'トップへ戻る', root_path %>
+  </div>
+</div>

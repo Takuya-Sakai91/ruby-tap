@@ -4,7 +4,12 @@ Rails.application.routes.draw do
   devise_for :users
   root 'home#index'
 
-  resources :games, only: %i[new create show]
+  resources :games, only: %i[new create show] do
+    member do
+      get :result
+      post :finish
+    end
+  end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

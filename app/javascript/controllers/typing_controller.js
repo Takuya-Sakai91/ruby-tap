@@ -2,15 +2,26 @@ import { Controller } from "@hotwired/stimulus";
 
 // Connects to data-controller="typing"
 export default class extends Controller {
-  static targets = ["method", "input"];
+  static targets = [
+    "method",
+    "input",
+    "correctCount",
+    "wrongCount",
+    "finishForm",
+  ];
   static values = {
     methods: Array,
     currentIndex: Number,
+    gameId: Number,
   };
 
   connect() {
     // 初期化時の現在のインデックス
     this.currentIndexValue = 0;
+
+    // 正解数とミス数の初期化
+    this.correctCount = 0;
+    this.wrongCount = 0;
 
     // ゲームの設定
     this.setupGame();
@@ -45,14 +56,50 @@ export default class extends Controller {
 
     if (input === currentMethod.name) {
       // 正解の場合
+      this.incrementCorrectCount();
       this.nextMethod();
       // 入力フィールドをクリア
       event.target.value = "";
+    } else if (!currentMethod.name.startsWith(input)) {
+      // 入力が間違っている場合（メソッド名の先頭部分と一致しなくなった時点でミス）
+      this.incrementWrongCount();
     }
   }
+
+  // 正解数をインクリメント
+  incrementCorrectCount() {
+    this.correctCount += 1;
+    if (this.hasCorrectCountTarget) {
+      this.correctCountTarget.textContent = this.correctCount;
+    }
+  }
+
+  // ミス数をインクリメント
+  incrementWrongCount() {
+    this.wrongCount += 1;
+    if (this.hasWrongCountTarget) {
+      this.wrongCountTarget.textContent = this.wrongCount;
+    }
+  }
+
   // 次のメソッドへ
   nextMethod() {
     this.currentIndexValue += 1;
     this.updateCurrentMethod();
+  }
+
+  // 結果を送信して結果画面に遷移
+  finishGame() {
+    // フォームの値を更新
+    this.updateFormValues();
+
+    // フォームを送信
+    this.finishFormTarget.requestSubmit();
+  }
+
+  // フォームの値を更新
+  updateFormValues() {
+    document.getElementById("game_correct_count").value = this.correctCount;
+    document.getElementById("game_wrong_count").value = this.wrongCount;
   }
 }

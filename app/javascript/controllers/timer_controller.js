@@ -28,7 +28,7 @@ export default class extends Controller {
       // 0秒になったらタイマー停止
       if (this.remainingTime <= 0) {
         this.stopTimer()
-        // 後でゲーム終了処理を追加する
+        this.endGame()
       }
     }, 1000)
   }
@@ -37,6 +37,22 @@ export default class extends Controller {
     if (this.timer) {
       clearInterval(this.timer)
       this.timer = null
+    }
+  }
+
+  // タイマーが0になった時に、typingコントローラーに終了を通知する
+  endGame() {
+    // タイピング入力を無効にする
+    if (this.hasInputTarget) {
+      this.inputTarget.disabled = true
+    }
+
+    // タイピングコントローラーのfinishGameメソッドを呼び出す
+    const typingController = this.application.getControllerForElementAndIdentifier(
+      this.element, 'typing'
+    )
+    if (typingController) {
+      typingController.finishGame()
     }
   }
 }

@@ -21,6 +21,21 @@ class GamesController < ApplicationController
     end
   end
 
+  # 結果の表示
+  def result
+    @game = Game.find(params[:id])
+  end
+
+  # ゲーム終了
+  def finish
+    @game = Game.find(params[:id])
+
+    # パラメータでゲーム結果を更新
+    @game.update(game_params)
+
+    redirect_to result_game_path
+  end
+
   private
 
   def add_methods_to_game(game)
@@ -31,5 +46,9 @@ class GamesController < ApplicationController
     methods.each_with_index do |method, index|
       game.game_methods.create(ruby_method: method, order: index)
     end
+  end
+
+  def game_params
+    params.require(:game).permit(:correct_count, :wrong_count, :score)
   end
 end

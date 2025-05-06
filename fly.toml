@@ -8,6 +8,7 @@ primary_region = 'nrt'
 console_command = '/rails/bin/rails console'
 
 [build]
+  builder = "heroku/buildpacks:20"
 
 [deploy]
   release_command = './bin/rails db:prepare'
@@ -43,6 +44,3 @@ console_command = '/rails/bin/rails console'
 [[statics]]
   guest_path = '/rails/public'
   url_prefix = '/'
-
-[build]
-  builder = "heroku/buildpacks:20"

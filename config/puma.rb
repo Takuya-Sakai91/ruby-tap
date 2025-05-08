@@ -42,3 +42,6 @@ pidfile ENV.fetch("PIDFILE") { "tmp/pids/server.pid" }
 
 # Allow puma to be restarted by `bin/rails restart` command.
 plugin :tmp_restart
+
+# TailwindCSSの自動ビルドを有効にするためのプラグイン
+plugin :tailwindcss if ENV.fetch("RAILS_ENV", "development") == "development"

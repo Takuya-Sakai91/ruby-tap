@@ -1,5 +1,5 @@
-<div class="mx-auto" data-controller="game-starter">
+<div class="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md mt-20" data-controller="game-starter">
   <%= form_with url: games_path, method: :post, data: { game_starter_target: "form" } do |f| %>
-    <p class="text-2xl font-bold">spaceかEnterを押してスタート！</p>
+    <p class="text-2xl font-bold text-center mb-6">spaceかEnterを押してスタート！</p>
   <% end %>
 </div>

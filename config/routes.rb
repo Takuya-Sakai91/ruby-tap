@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   devise_for :users
   root 'home#index'
 
+  resources :users, only: [:show]
+
   resources :games, only: %i[new create show] do
     member do
       get :result

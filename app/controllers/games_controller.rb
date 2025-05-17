@@ -26,6 +26,14 @@ class GamesController < ApplicationController
     @game = Game.find(params[:id])
   end
 
+  # 出題されたメソッド一覧の表示
+  def methods
+    @game = Game.find(params[:id])
+    # 正解数分だけメソッドを表示（最低1つは表示）
+    count = [@game.correct_count, 1].max
+    @ruby_methods = @game.ruby_methods.limit(count)
+  end
+
   # ゲーム終了
   def finish
     @game = Game.find(params[:id])

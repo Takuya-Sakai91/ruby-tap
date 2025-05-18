@@ -25,6 +25,28 @@ export default class extends Controller {
 
     // ゲームの設定
     this.setupGame();
+
+    // ESCキーイベントリスナーを追加
+    document.addEventListener("keydown", this.handleKeyDown.bind(this));
+  }
+
+  disconnect() {
+    // コントローラーが切断されるときにイベントリスナーを削除
+    document.removeEventListener("keydown", this.handleKeyDown.bind(this));
+  }
+
+  // キーダウンイベントハンドラー
+  handleKeyDown(event) {
+    if (event.key === "Escape") {
+      // ESCキーが押されたときの処理
+      this.retryGame();
+    }
+  }
+
+  // ゲームをリトライする（/games/newに遷移）
+  retryGame() {
+    // ページ遷移時にcontroller.disconnect()が自動的に呼ばれ、そこでタイマーは停止
+    window.location.href = "/games/new";
   }
 
   setupGame() {

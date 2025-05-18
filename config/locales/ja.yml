@@ -1,0 +1,13 @@
+ja:
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            username:
+              invalid_format: "は英数字とアンダースコアのみ使用できます"
+            current_password:
+              blank: "を入力してください"
+              invalid: "が正しくありません"
+  users:
+    access_denied: "他のユーザーのページにはアクセスできません"

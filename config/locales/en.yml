@@ -29,3 +29,10 @@
 
 en:
   hello: "Hello world"
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            username:
+              invalid_format: "can only contain letters, numbers and underscores"

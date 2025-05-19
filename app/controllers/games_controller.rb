@@ -41,6 +41,9 @@ class GamesController < ApplicationController
     # パラメータでゲーム結果を更新
     @game.update(game_params)
 
+    # ユーザーが関連付けられている場合、スコアを更新
+    @game.user.update_scores(@game) if @game.user.present?
+
     redirect_to result_game_path
   end
 

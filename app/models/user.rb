@@ -16,4 +16,15 @@ class User < ApplicationRecord
   def display_name
     username.presence || email.split('@').first
   end
+
+  # 新しいゲーム結果に基づいてスコアを更新する
+  def update_scores(new_game)
+    # 前回のスコアを更新（直近のゲーム結果を取得）
+    self.previous_score = games.where.not(id: new_game.id).order(created_at: :desc).first&.correct_count.to_i || 0
+
+    # ベストスコアを更新（現在のスコアがベストスコアより高い場合）
+    self.best_score = new_game.correct_count.to_i if best_score.nil? || new_game.correct_count > best_score
+
+    save
+  end
 end

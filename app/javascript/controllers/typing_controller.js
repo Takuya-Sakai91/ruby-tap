@@ -63,7 +63,10 @@ export default class extends Controller {
   updateCurrentMethod() {
     if (this.currentIndexValue < this.methodsValue.length) {
       const currentMethod = this.methodsValue[this.currentIndexValue];
-      this.methodTarget.textContent = currentMethod.name;
+      this.methodTarget.innerHTML = `
+        <div class="font-bold text-2xl text-red-700">${currentMethod.name}</div>
+        ${currentMethod.description ? `<div class="text-sm text-gray-600 mt-1">${currentMethod.description}</div>` : ''}
+      `;
     } else {
       // 全てのメソッドが終了した場合は最初に戻る
       this.currentIndexValue = 0;

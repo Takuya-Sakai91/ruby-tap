@@ -6,7 +6,17 @@ Rails.application.routes.draw do
 
   resources :users, only: [:show]
 
-  resources :games, only: %i[new create show] do
+  # ランキングページを追加
+  get 'rankings', to: 'rankings#index', as: :rankings
+
+  # 管理者用のルート
+  namespace :admin do
+    root to: 'dashboard#index'
+    resources :ruby_methods
+    resources :ruby_modules
+  end
+
+  resources :games, only: %i[index new create show] do
     member do
       get :result
       post :finish

@@ -13,6 +13,11 @@ class User < ApplicationRecord
   validates :username, presence: true, uniqueness: true, length: { minimum: 3, maximum: 20 },
                        format: { with: /\A[a-zA-Z0-9_]+\z/, message: I18n.t('activerecord.errors.models.user.attributes.username.invalid_format') }
 
+  # 管理者かどうかを判定
+  def admin?
+    admin
+  end
+
   def display_name
     username.presence || email.split('@').first
   end

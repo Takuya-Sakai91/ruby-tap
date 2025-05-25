@@ -1,0 +1,125 @@
+<div class="max-w-5xl mx-auto">
+  <div class="bg-gradient-to-br from-white via-red-25 to-yellow-25 rounded-3xl shadow-2xl overflow-hidden border-4 border-red-200 relative">
+    <div class="bg-gradient-to-r from-red-800 via-red-900 to-red-950 py-6 px-6">
+      <h1 class="text-4xl font-bold text-white text-center drop-shadow-lg">🏆 ランキング</h1>
+      <div class="w-32 h-1 bg-gradient-to-r from-yellow-400 to-red-400 mx-auto rounded-full mt-2"></div>
+    </div>
+
+    <div class="p-8">
+      <% if @users.any? %>
+        <div class="space-y-8">
+          <!-- トップ3のユーザー表示 - 特別な強調表示 -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+            <% @users.take(3).each_with_index do |user, index| %>
+              <%
+                case index
+                when 0
+                  card_class = "bg-gradient-to-br from-yellow-100 to-yellow-200 border-yellow-500 shadow-yellow-200/50"
+                  badge_class = "bg-gradient-to-r from-yellow-400 to-yellow-500"
+                  text_class = "text-yellow-900"
+                  icon = "👑"
+                when 1
+                  card_class = "bg-gradient-to-br from-gray-100 to-gray-200 border-gray-500 shadow-gray-200/50"
+                  badge_class = "bg-gradient-to-r from-gray-400 to-gray-500"
+                  text_class = "text-gray-900"
+                  icon = "🥈"
+                when 2
+                  card_class = "bg-gradient-to-br from-orange-100 to-orange-200 border-orange-500 shadow-orange-200/50"
+                  badge_class = "bg-gradient-to-r from-orange-400 to-orange-500"
+                  text_class = "text-orange-900"
+                  icon = "🥉"
+                end
+              %>
+
+              <div class="<%= card_class %> rounded-2xl border-3 shadow-xl p-6 transform transition-all hover:scale-105 duration-200 <%= user == current_user ? 'ring-4 ring-red-400' : '' %>">
+                <div class="text-center">
+                  <div class="<%= badge_class %> text-white font-bold rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-3 shadow-lg">
+                    <%= index + 1 %>
+                  </div>
+                  <div class="text-2xl mb-2"><%= icon %></div>
+                  <h3 class="text-lg font-bold <%= text_class %> mb-2"><%= user.display_name %></h3>
+                  <div class="text-3xl font-bold <%= text_class %>">
+                    <%= user.best_score %> 点
+                  </div>
+                  <% if user == current_user %>
+                    <div class="mt-2 text-red-600 font-semibold text-sm">あなた</div>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+
+          <!-- 4位以降のユーザー表示 -->
+          <% if @users.length > 3 %>
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden border-2 border-red-100">
+              <div class="bg-gradient-to-r from-red-50 to-yellow-50 px-6 py-4 border-b border-red-100">
+                <h2 class="text-xl font-bold text-red-800">4位以降のランキング</h2>
+              </div>
+
+              <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                  <thead class="bg-gray-50">
+                    <tr>
+                      <th scope="col" class="px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase tracking-wider">順位</th>
+                      <th scope="col" class="px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase tracking-wider">ユーザー名</th>
+                      <th scope="col" class="px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase tracking-wider">最高スコア</th>
+                    </tr>
+                  </thead>
+                  <tbody class="bg-white divide-y divide-gray-200">
+                    <% @users.drop(3).each_with_index do |user, index| %>
+                      <tr class="<%= user == current_user ? 'bg-red-50 border-l-4 border-red-400' : '' %> hover:bg-gray-50 transition-colors">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                          <div class="flex items-center">
+                            <div class="bg-gradient-to-r from-red-500 to-red-600 text-white font-bold rounded-full w-8 h-8 flex items-center justify-center text-sm">
+                              <%= index + 4 %>
+                            </div>
+                          </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                          <div class="flex items-center">
+                            <div class="text-sm font-semibold text-gray-900">
+                              <%= user.display_name %>
+                              <% if user == current_user %>
+                                <span class="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800">
+                                  あなた
+                                </span>
+                              <% end %>
+                            </div>
+                          </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                          <div class="text-lg font-bold text-red-700"><%= user.best_score %> 点</div>
+                        </td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          <% end %>
+        </div>
+
+        <!-- ログイン中のユーザーのランキング表示（20位以内に入っていない場合） -->
+        <% if user_signed_in? && @current_user_rank && @current_user_rank > 20 %>
+          <div class="mt-8 p-6 bg-gradient-to-r from-red-50 to-yellow-50 rounded-2xl border-2 border-red-200 shadow-lg">
+            <div class="flex items-center justify-center space-x-4">
+              <div class="text-lg font-semibold text-gray-700">あなたの順位:</div>
+              <div class="bg-gradient-to-r from-red-500 to-red-600 text-white font-bold rounded-full w-12 h-12 flex items-center justify-center text-lg">
+                <%= @current_user_rank %>
+              </div>
+              <div class="text-lg font-semibold text-gray-700">位</div>
+              <div class="text-gray-600">（スコア: <span class="font-bold text-red-700"><%= current_user.best_score %></span> 点）</div>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <div class="text-center py-20">
+          <div class="text-6xl mb-4">💎</div>
+          <h2 class="text-2xl font-bold text-gray-700 mb-4">まだランキングデータがありません</h2>
+          <p class="text-gray-500 mb-8">最初の宝石発掘者になりませんか？</p>
+          <%= link_to "ゲームをプレイする", games_path, method: :post, class: "inline-block px-8 py-4 bg-gradient-to-r from-red-500 to-red-600 text-white font-bold rounded-2xl hover:from-red-600 hover:to-red-700 transition-all duration-200 transform hover:scale-105 shadow-xl" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

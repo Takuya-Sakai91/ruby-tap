@@ -1,0 +1,181 @@
+<% content_for :page_title do %>
+  モジュール詳細
+<% end %>
+
+<div class="mb-6">
+  <div class="flex items-center mb-4">
+    <%= link_to admin_ruby_modules_path, class: "text-gray-600 hover:text-gray-900 mr-2" do %>
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+      </svg>
+    <% end %>
+    <h1 class="text-2xl font-semibold text-gray-800">モジュール詳細</h1>
+  </div>
+</div>
+
+<div class="bg-white rounded-lg shadow-md overflow-hidden">
+  <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
+    <div class="flex justify-between items-center">
+      <h2 class="text-xl font-bold text-red-600"><%= @ruby_module.name %></h2>
+    </div>
+  </div>
+
+  <div class="p-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div>
+        <div class="mb-6">
+          <h3 class="text-sm font-medium text-gray-500 mb-1">モジュール名</h3>
+          <p class="text-lg font-semibold text-gray-800"><%= @ruby_module.name %></p>
+        </div>
+
+        <div class="mb-6">
+          <h3 class="text-sm font-medium text-gray-500 mb-1">メソッド数</h3>
+          <p class="text-lg font-semibold text-gray-800">
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+              <%= @ruby_methods.count %>個
+            </span>
+          </p>
+        </div>
+
+        <div class="mb-6">
+          <h3 class="text-sm font-medium text-gray-500 mb-1">作成日</h3>
+          <p class="text-lg font-semibold text-gray-800"><%= @ruby_module.created_at.strftime("%Y年%m月%d日 %H:%M") %></p>
+        </div>
+
+        <div class="mb-6">
+          <h3 class="text-sm font-medium text-gray-500 mb-1">更新日</h3>
+          <p class="text-lg font-semibold text-gray-800"><%= @ruby_module.updated_at.strftime("%Y年%m月%d日 %H:%M") %></p>
+        </div>
+      </div>
+
+      <div>
+        <div class="mb-6">
+          <h3 class="text-sm font-medium text-gray-500 mb-1">説明</h3>
+          <% if @ruby_module.description.present? %>
+            <div class="p-4 bg-gray-50 rounded-md">
+              <p class="text-gray-800"><%= simple_format(@ruby_module.description) %></p>
+            </div>
+          <% else %>
+            <p class="text-gray-500 italic">説明なし</p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-8 pt-6 border-t border-gray-200">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-medium text-gray-800">メソッド一覧</h3>
+        <%= link_to new_admin_ruby_method_path(ruby_module_id: @ruby_module.id), class: "bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-md flex items-center text-sm" do %>
+          <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+          </svg>
+          新しいメソッドを追加
+        <% end %>
+      </div>
+
+      <% if @ruby_methods.any? %>
+        <div class="bg-gray-50 rounded-md overflow-hidden">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-100">
+              <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">メソッド名</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">説明</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">難易度</th>
+                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">操作</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+              <% @ruby_methods.each do |method| %>
+                <tr class="hover:bg-gray-100">
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-red-600">
+                    <code><%= method.name %></code>
+                  </td>
+                  <td class="px-6 py-4 text-sm text-gray-500 truncate max-w-xs">
+                    <%= truncate(method.description, length: 50) %>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <% case method.difficulty %>
+                    <% when 'beginner' %>
+                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">初級</span>
+                    <% when 'intermediate' %>
+                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">中級</span>
+                    <% when 'advanced' %>
+                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">上級</span>
+                    <% end %>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    <div class="flex items-center justify-end space-x-2">
+                      <%= link_to admin_ruby_method_path(method), class: "text-blue-600 hover:text-blue-900" do %>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                        </svg>
+                      <% end %>
+                      <%= link_to edit_admin_ruby_method_path(method), class: "text-indigo-600 hover:text-indigo-900" do %>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                        </svg>
+                      <% end %>
+                      <%= button_to admin_ruby_method_path(method), method: :delete, data: { "turbo-confirm": "#{method.name}メソッドを削除しますか？" }, class: "text-red-600 hover:text-red-900 bg-transparent border-0 p-0", form: { style: "display: inline;" } do %>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                        </svg>
+                      <% end %>
+                    </div>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% else %>
+        <div class="text-center py-8 bg-gray-50 rounded-md">
+          <svg class="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+          <h6 class="text-lg font-medium text-gray-800 mb-2">このモジュールにはメソッドがありません</h6>
+          <p class="text-gray-500 mb-4">
+            メソッドを追加してモジュールを完成させましょう
+          </p>
+          <%= link_to new_admin_ruby_method_path(ruby_module_id: @ruby_module.id), class: "bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md inline-flex items-center" do %>
+            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+            </svg>
+            最初のメソッドを追加
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="mt-8 pt-6 border-t border-gray-200 flex justify-between items-center">
+      <div class="flex space-x-3">
+        <%= link_to admin_ruby_modules_path, class: "px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2" do %>
+          <div class="flex items-center">
+            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+            一覧に戻る
+          </div>
+        <% end %>
+
+        <%= link_to edit_admin_ruby_module_path(@ruby_module), class: "px-4 py-2 bg-blue-600 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" do %>
+          <div class="flex items-center">
+            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+            </svg>
+            編集する
+          </div>
+        <% end %>
+      </div>
+
+      <div>
+        <%= button_to admin_ruby_module_path(@ruby_module), method: :delete, data: { "turbo-confirm": "「#{@ruby_module.name}」モジュールを本当に削除しますか？関連するメソッドも全て削除されます。この操作は取り消せません。" }, class: "px-4 py-2 bg-red-600 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 inline-flex items-center", form: { style: "display: inline;" } do %>
+          <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+          </svg>
+          削除する
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

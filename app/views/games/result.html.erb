@@ -1,23 +1,91 @@
-<div class="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md mt-20">
-  <h1 class="text-2xl font-bold text-center mb-6 text-red-700">タイピング結果</h1>
+<div class="max-w-4xl mx-auto">
+  <div class="bg-gradient-to-br from-white via-red-25 to-yellow-25 rounded-3xl shadow-2xl p-8 border-4 border-red-200 relative overflow-hidden">
+    <div class="text-center">
+      <!-- タイトル -->
+      <div class="mb-8">
+        <h1 class="text-4xl font-bold text-red-800 mb-2 drop-shadow-lg">💎 タイピング結果 💎</h1>
+        <div class="w-32 h-1 bg-gradient-to-r from-red-400 to-yellow-400 mx-auto rounded-full"></div>
+      </div>
 
-  <div class="mb-4 text-center">
-    <h2 class="font-medium text-gray-700">タイプしたメソッド数</h2>
-    <p class="text-2xl font-bold"><span data-typing-target="correctCount" class="text-red-600"><%= @game.correct_count %></span><span class="text-lg text-gray-500"> メソッド/分</span></p>
-  </div>
+      <!-- スコア表示 -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+        <!-- タイプしたメソッド数 -->
+        <div class="bg-gradient-to-br from-red-100 to-red-50 rounded-2xl p-6 border-2 border-red-200 shadow-lg">
+          <div class="text-red-600 text-lg font-semibold mb-2">💎 発掘した宝石</div>
+          <div class="text-5xl font-bold text-red-700 mb-2"><%= @game.correct_count %></div>
+          <div class="text-red-600 font-medium">メソッド/分</div>
+        </div>
 
-  <div class="mb-6 text-center">
-    <h2 class="font-medium text-gray-700">ミスタイプ数</h2>
-    <p class="text-2xl font-bold"><span data-typing-target="wrongCount" class="text-red-600"><%= @game.wrong_count %></span><span class="text-lg text-gray-500"> 回</span></p>
-  </div>
+        <!-- ミスタイプ数 -->
+        <div class="bg-gradient-to-br from-yellow-100 to-yellow-50 rounded-2xl p-6 border-2 border-yellow-200 shadow-lg">
+          <div class="text-yellow-700 text-lg font-semibold mb-2">⛏️ ミス採掘</div>
+          <div class="text-5xl font-bold text-yellow-800 mb-2"><%= @game.wrong_count %></div>
+          <div class="text-yellow-700 font-medium">回</div>
+        </div>
+      </div>
 
-  <div class="flex flex-wrap justify-center gap-3 mt-8">
-    <%= link_to 'もう一度プレイ', new_game_path, class: 'px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 whitespace-nowrap' %>
-    <%= link_to '出題メソッド', methods_game_path(@game), class: 'px-4 py-2 bg-white text-red-600 border border-red-600 rounded-md hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500 whitespace-nowrap' %>
-    <% if user_signed_in? %>
-      <%= link_to 'マイページへ', user_path(current_user), class: 'px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 whitespace-nowrap' %>
-    <% else %>
-      <%= link_to 'トップへ戻る', root_path, class: 'px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 whitespace-nowrap' %>
-    <% end %>
+      <!-- 順位表示 -->
+      <% if @current_rank %>
+        <div class="bg-gradient-to-r from-red-50 to-yellow-50 rounded-2xl p-6 mb-8 border-2 border-red-200 shadow-lg">
+          <h2 class="text-2xl font-bold text-red-800 mb-4">🏆 あなたの順位</h2>
+          <div class="flex items-center justify-center space-x-4">
+            <div class="flex items-center justify-center w-20 h-20 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-full text-3xl font-bold shadow-xl">
+              <%= @current_rank %>
+            </div>
+            <div class="text-xl font-semibold text-red-700">位</div>
+            <% if @rank_change %>
+              <% if @rank_change > 0 %>
+                <div class="flex items-center text-green-600 font-semibold">
+                  <svg class="w-6 h-6 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                  </svg>
+                  <%= @rank_change %>位アップ！
+                </div>
+              <% elsif @rank_change < 0 %>
+                <div class="flex items-center text-red-600 font-semibold">
+                  <svg class="w-6 h-6 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M14.707 12.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l2.293-2.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                  </svg>
+                  <%= @rank_change.abs %>位ダウン
+                </div>
+              <% else %>
+                <div class="text-gray-600 font-semibold">
+                  順位変動なし
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+
+          <%= link_to "ランキングを確認する", rankings_path, class: "inline-block mt-4 text-red-600 hover:text-red-700 font-semibold text-lg underline decoration-2 hover:decoration-red-700 transition-all duration-200" %>
+        </div>
+      <% end %>
+
+      <!-- アクションボタン -->
+      <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-6">
+        <!-- もう一度プレイ -->
+        <%= link_to games_path, method: :post, class: "group bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-8 py-4 rounded-2xl text-lg font-bold shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-200 flex items-center w-full md:w-auto justify-center" do %>
+          <svg class="w-6 h-6 mr-2 group-hover:animate-spin" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"></path>
+          </svg>
+          もう一度プレイ
+        <% end %>
+
+        <!-- 出題メソッド -->
+        <%= link_to methods_game_path(@game), class: "group bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-red-900 px-8 py-4 rounded-2xl text-lg font-bold shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-200 flex items-center w-full md:w-auto justify-center" do %>
+          <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z"></path>
+          </svg>
+          出題メソッド
+        <% end %>
+
+        <!-- マイページへ -->
+        <%= link_to root_path, class: "group bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white px-8 py-4 rounded-2xl text-lg font-semibold shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-200 flex items-center w-full md:w-auto justify-center" do %>
+          <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+          </svg>
+          マイページへ
+        <% end %>
+      </div>
+    </div>
   </div>
 </div>

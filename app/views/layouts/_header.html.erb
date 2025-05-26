@@ -1,41 +1,83 @@
-<header class="bg-white shadow">
+<header class="bg-gradient-to-r from-red-800 via-red-900 to-red-950 shadow-2xl border-b-4 border-red-600">
   <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex justify-between h-16">
+    <div class="flex justify-between items-center h-20">
       <div class="flex items-center">
-        <!-- ロゴ用のプレースホルダー -->
+        <!-- ロゴ -->
         <div class="flex-shrink-0 flex items-center">
-          <div class="h-8 w-8 bg-gray-200 rounded flex items-center justify-center">
-            <%= link_to "RT", root_path, class: "text-gray-700 font-bold text-lg" %>
-          </div>
+          <%= link_to root_path, class: "flex items-center group" do %>
+            <%= image_tag 'ruby-tap-logo.png', alt: 'Ruby Tap Logo', class: 'h-14 w-auto transition-transform duration-200 group-hover:scale-110' %>
+            <div class="ml-3 flex flex-col">
+              <span class="text-white font-bold text-2xl tracking-wide drop-shadow-lg">RubyTap</span>
+              <span class="text-red-200 text-xs font-medium">～宝石を発掘せよ～</span>
+            </div>
+          <% end %>
         </div>
       </div>
 
       <div class="flex items-center">
-        <nav class="flex space-x-4">
-          <%= link_to "ホーム", root_path, class: "text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium" %>
+        <nav class="flex items-center space-x-6">
+          <%= link_to "ホーム", root_path, class: "text-white hover:text-red-200 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-red-700/30 backdrop-blur-sm" %>
+          <%= link_to rankings_path, class: "text-white hover:text-red-200 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-red-700/30 backdrop-blur-sm flex items-center" do %>
+            ランキング
+          <% end %>
 
           <% if user_signed_in? %>
             <!-- ログイン時のメニュー -->
-            <!-- ユーザードロップダウンメニュー -->
             <div class="relative" data-controller="dropdown">
-              <button data-action="click->dropdown#toggle" class="flex items-center text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium focus:outline-none">
+              <button data-action="click->dropdown#toggle" class="flex items-center text-white hover:text-red-200 px-4 py-2 rounded-lg text-sm font-medium focus:outline-none transition-all duration-200 hover:bg-red-700/30 backdrop-blur-sm">
+                <div class="w-8 h-8 bg-gradient-to-r from-yellow-400 to-red-500 rounded-full flex items-center justify-center mr-2 text-white font-bold text-sm">
+                  <%= current_user.display_name.first.upcase %>
+                </div>
                 <span><%= current_user.display_name %></span>
-                <svg class="ml-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                <svg class="ml-2 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
                 </svg>
               </button>
 
-              <div data-dropdown-target="menu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
-                <%= link_to "マイページ", user_path(current_user.id), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" %>
-                <%= link_to "プロフィールを編集", edit_user_registration_path, class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" %>
-                <div class="border-t border-gray-100"></div>
-                <%= button_to "ログアウト", destroy_user_session_path, method: :delete, class: "w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" %>
+              <div data-dropdown-target="menu" class="hidden absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl py-2 z-50 border border-red-200">
+                <%= link_to user_path(current_user.id), class: "block px-4 py-3 text-sm text-gray-700 hover:bg-red-50 flex items-center" do %>
+                  <svg class="w-4 h-4 mr-2 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                  </svg>
+                  マイページ
+                <% end %>
+                <%= link_to edit_user_registration_path, class: "block px-4 py-3 text-sm text-gray-700 hover:bg-red-50 flex items-center" do %>
+                  <svg class="w-4 h-4 mr-2 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                  </svg>
+                  プロフィール編集
+                <% end %>
+
+                <% if current_user.admin? %>
+                  <div class="border-t border-gray-100 my-1"></div>
+                  <%= link_to admin_root_path, class: "block px-4 py-3 text-sm text-gray-700 hover:bg-red-50 flex items-center" do %>
+                    <svg class="w-4 h-4 mr-2 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                    </svg>
+                    管理画面
+                  <% end %>
+                  <%= link_to admin_ruby_methods_path, class: "block px-4 py-3 text-sm text-gray-700 hover:bg-red-50 flex items-center" do %>
+                    <svg class="w-4 h-4 mr-2 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                    </svg>
+                    メソッド管理
+                  <% end %>
+                <% end %>
+
+                <div class="border-t border-gray-100 my-1"></div>
+                <%= button_to destroy_user_session_path, method: :delete, class: "w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-red-50 flex items-center" do %>
+                  <svg class="w-4 h-4 mr-2 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                  </svg>
+                  ログアウト
+                <% end %>
               </div>
             </div>
           <% else %>
             <!-- 未ログイン時のメニュー -->
-            <%= link_to "ログイン", new_user_session_path, class: "text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium" %>
-            <%= link_to "新規登録", new_user_registration_path, class: "bg-red-500 hover:bg-red-700 text-white px-3 py-2 rounded-md text-sm font-medium" %>
+            <%= link_to "ログイン", new_user_session_path, class: "text-white hover:text-red-200 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-red-700/30 backdrop-blur-sm" %>
+            <%= link_to "新規登録", new_user_registration_path, class: "bg-gradient-to-r from-yellow-400 to-yellow-500 text-red-900 hover:from-yellow-300 hover:to-yellow-400 px-4 py-2 rounded-lg text-sm font-bold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105" %>
           <% end %>
         </nav>
       </div>

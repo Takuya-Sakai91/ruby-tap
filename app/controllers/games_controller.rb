@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
 class GamesController < ApplicationController
+  def index
+    # games#indexは新規ゲーム作成ページとして機能
+    redirect_to new_game_path
+  end
+
   def show
     @game = Game.find(params[:id])
     @ruby_methods = @game.ruby_methods
@@ -24,6 +29,27 @@ class GamesController < ApplicationController
   # 結果の表示
   def result
     @game = Game.find(params[:id])
+
+    # ユーザーがログインしていて、このゲームに紐づいている場合
+    if user_signed_in? && @game.user.present?
+      # 現在のランキング（何位か）を取得
+      @current_rank = User.where.not(best_score: nil)
+                         .where('best_score > ?', @game.user.best_score)
+                         .count + 1
+
+      # 以前のベストスコアを記録
+      @previous_best_score = @game.user.best_score_before_last_save
+
+      # 前回のランキングを取得（比較用）
+      @previous_rank = nil
+      if @previous_best_score.present? && @previous_best_score != @game.user.best_score
+        @previous_rank = User.where.not(best_score: nil)
+                            .where('best_score > ?', @previous_best_score)
+                            .count + 1
+        # ランク変化を計算
+        @rank_change = @previous_rank - @current_rank
+      end
+    end
   end
 
   # 出題されたメソッド一覧の表示

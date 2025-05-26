@@ -2,13 +2,7 @@ import { Controller } from "@hotwired/stimulus";
 
 // Connects to data-controller="typing"
 export default class extends Controller {
-  static targets = [
-    "method",
-    "input",
-    "correctCount",
-    "wrongCount",
-    "finishForm",
-  ];
+  static targets = ["method", "input", "finishForm"];
   static values = {
     methods: Array,
     currentIndex: Number,
@@ -65,7 +59,11 @@ export default class extends Controller {
       const currentMethod = this.methodsValue[this.currentIndexValue];
       this.methodTarget.innerHTML = `
         <div class="font-bold text-2xl text-red-700">${currentMethod.name}</div>
-        ${currentMethod.description ? `<div class="text-sm text-gray-600 mt-1">${currentMethod.description}</div>` : ''}
+        ${
+          currentMethod.description
+            ? `<div class="text-sm text-gray-600 mt-1">${currentMethod.description}</div>`
+            : ""
+        }
       `;
     } else {
       // 全てのメソッドが終了した場合は最初に戻る
@@ -82,29 +80,53 @@ export default class extends Controller {
     if (input === currentMethod.name) {
       // 正解の場合
       this.incrementCorrectCount();
+      this.showCorrectEffect();
       this.nextMethod();
       // 入力フィールドをクリア
       event.target.value = "";
     } else if (!currentMethod.name.startsWith(input)) {
       // 入力が間違っている場合（メソッド名の先頭部分と一致しなくなった時点でミス）
       this.incrementWrongCount();
+      this.showWrongEffect();
+      // 入力フィールドをクリア
+      event.target.value = "";
     }
+  }
+
+  // 正解エフェクトを表示
+  showCorrectEffect() {
+    // 入力フィールドに正解エフェクトを適用
+    this.inputTarget.classList.add("correct-answer");
+    this.methodTarget.classList.add("method-correct");
+
+    // 一定時間後にエフェクトを削除
+    setTimeout(() => {
+      this.inputTarget.classList.remove("correct-answer");
+      this.methodTarget.classList.remove("method-correct");
+    }, 500);
+  }
+
+  // 不正解エフェクトを表示
+  showWrongEffect() {
+    // 画面を振動させるエフェクトを適用
+    document.body.classList.add("shake");
+    this.inputTarget.classList.add("wrong-answer");
+
+    // 一定時間後にエフェクトを削除
+    setTimeout(() => {
+      document.body.classList.remove("shake");
+      this.inputTarget.classList.remove("wrong-answer");
+    }, 500);
   }
 
   // 正解数をインクリメント
   incrementCorrectCount() {
     this.correctCount += 1;
-    if (this.hasCorrectCountTarget) {
-      this.correctCountTarget.textContent = this.correctCount;
-    }
   }
 
   // ミス数をインクリメント
   incrementWrongCount() {
     this.wrongCount += 1;
-    if (this.hasWrongCountTarget) {
-      this.wrongCountTarget.textContent = this.wrongCount;
-    }
   }
 
   // 次のメソッドへ

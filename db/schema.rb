@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_05_22_150755) do
+ActiveRecord::Schema[7.1].define(version: 2025_05_23_234550) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -44,6 +44,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_22_150755) do
     t.string "class_name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "difficulty", default: "beginner"
     t.index ["name", "ruby_module_id"], name: "index_ruby_methods_on_name_and_ruby_module_id", unique: true
     t.index ["ruby_module_id"], name: "index_ruby_methods_on_ruby_module_id"
   end
@@ -52,6 +53,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_22_150755) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "description"
     t.index ["name"], name: "index_ruby_modules_on_name", unique: true
   end
 

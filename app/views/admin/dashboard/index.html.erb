@@ -1,0 +1,116 @@
+<% content_for :page_title do %>
+  ダッシュボード
+<% end %>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+  <!-- ユーザー統計 -->
+  <div class="bg-white rounded-lg shadow p-6 border-l-4 border-blue-500">
+    <div class="flex items-center">
+      <div class="p-3 rounded-full bg-blue-100 mr-4">
+        <svg class="h-8 w-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+        </svg>
+      </div>
+      <div>
+        <p class="text-gray-500 text-sm">登録ユーザー数</p>
+        <p class="text-2xl font-bold text-gray-800"><%= @users_count %></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ゲーム統計 -->
+  <div class="bg-white rounded-lg shadow p-6 border-l-4 border-green-500">
+    <div class="flex items-center">
+      <div class="p-3 rounded-full bg-green-100 mr-4">
+        <svg class="h-8 w-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+        </svg>
+      </div>
+      <div>
+        <p class="text-gray-500 text-sm">総プレイ回数</p>
+        <p class="text-2xl font-bold text-gray-800"><%= @games_count %></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- メソッド統計 -->
+  <div class="bg-white rounded-lg shadow p-6 border-l-4 border-purple-500">
+    <div class="flex items-center">
+      <div class="p-3 rounded-full bg-purple-100 mr-4">
+        <svg class="h-8 w-8 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+        </svg>
+      </div>
+      <div>
+        <p class="text-gray-500 text-sm">登録メソッド数</p>
+        <p class="text-2xl font-bold text-gray-800"><%= RubyMethod.count %></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- よく使われるメソッド -->
+<div class="bg-white rounded-lg shadow-md mb-8">
+  <div class="px-6 py-4 border-b border-gray-200">
+    <h3 class="text-lg font-semibold text-gray-800">よく使用されるメソッド Top 10</h3>
+  </div>
+
+  <div class="p-6">
+    <% if @top_methods.any? %>
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">メソッド名</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">クラス名</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">モジュール</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">使用回数</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <% @top_methods.each do |method| %>
+              <tr class="hover:bg-gray-50">
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-red-600"><%= method.name %></td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><%= method.class_name %></td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><%= method.ruby_module&.name || '-' %></td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><%= method.usage_count %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% else %>
+      <p class="text-gray-500 text-center py-4">まだデータがありません。</p>
+    <% end %>
+  </div>
+</div>
+
+<!-- クイックアクション -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+  <div class="bg-white rounded-lg shadow-md p-6">
+    <h3 class="text-lg font-semibold text-gray-800 mb-4">クイックアクション</h3>
+    <div class="space-y-4">
+      <%= link_to new_admin_ruby_method_path, class: "flex items-center text-blue-600 hover:text-blue-800" do %>
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+        </svg>
+        新しいメソッドを追加
+      <% end %>
+
+      <%= link_to admin_ruby_methods_path, class: "flex items-center text-blue-600 hover:text-blue-800" do %>
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+        </svg>
+        全メソッドを管理
+      <% end %>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-lg shadow-md p-6">
+    <h3 class="text-lg font-semibold text-gray-800 mb-4">最近のアクティビティ</h3>
+    <p class="text-gray-500 text-sm">
+      最近のユーザーアクティビティやシステムの動作状況などを表示します。<br>
+      現在この機能は開発中です。
+    </p>
+  </div>
+</div>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>RubyTap | 管理画面</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+    <%= favicon_link_tag 'ruby-tap-logo.png' %>
+
+    <%= stylesheet_link_tag "application" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="bg-gray-50">
+    <div class="min-h-screen flex">
+      <!-- サイドバー -->
+      <div class="w-64 bg-gray-800 text-white p-6">
+        <div class="flex items-center mb-8">
+          <%= image_tag 'ruby-tap-logo.png', alt: 'Ruby Tap Logo', class: 'h-8 w-auto mr-2' %>
+          <h1 class="text-xl font-bold">Ruby Tap 管理</h1>
+        </div>
+
+        <nav class="space-y-2">
+          <%= link_to admin_root_path, class: "block py-2 px-4 rounded hover:bg-gray-700 #{current_page?(admin_root_path) ? 'bg-gray-700' : ''}" do %>
+            <div class="flex items-center">
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+              </svg>
+              ダッシュボード
+            </div>
+          <% end %>
+
+          <%= link_to admin_ruby_methods_path, class: "block py-2 px-4 rounded hover:bg-gray-700 #{controller_name == 'ruby_methods' ? 'bg-gray-700' : ''}" do %>
+            <div class="flex items-center">
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+              </svg>
+              メソッド管理
+            </div>
+          <% end %>
+
+          <%= link_to admin_ruby_modules_path, class: "block py-2 px-4 rounded hover:bg-gray-700 #{controller_name == 'ruby_modules' ? 'bg-gray-700' : ''}" do %>
+            <div class="flex items-center">
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+              モジュール管理
+            </div>
+          <% end %>
+
+          <div class="border-t border-gray-700 my-4"></div>
+
+          <%= link_to root_path, class: "block py-2 px-4 rounded hover:bg-gray-700" do %>
+            <div class="flex items-center">
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"></path>
+              </svg>
+              サイトに戻る
+            </div>
+          <% end %>
+        </nav>
+      </div>
+
+      <!-- メインコンテンツ -->
+      <div class="flex-1 flex flex-col">
+        <!-- ヘッダー -->
+        <header class="bg-white shadow-sm">
+          <div class="py-4 px-6 flex justify-between items-center">
+            <h2 class="text-xl font-semibold text-gray-800">
+              <% if content_for?(:page_title) %>
+                <%= yield :page_title %>
+              <% else %>
+                管理画面
+              <% end %>
+            </h2>
+
+            <div class="flex items-center space-x-4">
+              <span class="text-sm text-gray-600"><%= current_user.display_name %></span>
+              <%= button_to destroy_user_session_path, method: :delete, class: "text-sm text-red-600 hover:text-red-800" do %>
+                ログアウト
+              <% end %>
+            </div>
+          </div>
+        </header>
+
+        <!-- フラッシュメッセージ -->
+        <% if notice %>
+          <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 m-4">
+            <%= notice %>
+          </div>
+        <% end %>
+
+        <% if alert %>
+          <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 m-4">
+            <%= alert %>
+          </div>
+        <% end %>
+
+        <!-- メインコンテンツ -->
+        <main class="flex-1 p-6 overflow-y-auto">
+          <%= yield %>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,17 +1,29 @@
-<div class="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md mt-20" data-controller="timer typing"
-                     data-typing-methods-value="<%= @ruby_methods.to_json(only: [:id, :name, :description]) %>"
+<div class="max-w-md mx-auto p-6 bg-white rounded-xl shadow-lg mt-20 border-2 border-red-300" data-controller="timer typing"
+                     data-typing-methods-value="<%= @ruby_methods.to_json(only: [:id, :name]) %>"
                      data-typing-current-index-value="0"
                      data-typing-game-id-value="<%= @game.id %>">
-  <div class="mb-4 text-xl text-center">
-    <span id="timer" data-timer-target="display" class="font-bold text-2xl text-red-600"><%= @game.remaining_time %></span>秒
+  <!-- タイマー表示 -->
+  <div class="mb-4 flex items-center justify-center">
+    <span class="text-gray-600 mr-2">残り時間：</span>
+    <span id="timer" data-timer-target="display" class="font-bold text-2xl text-red-600"><%= @game.remaining_time %></span>
+    <span class="text-gray-600 ml-1">秒</span>
   </div>
 
-  <div class="mb-4 text-center">
-    <div data-typing-target="method" class="font-bold text-2xl text-red-700"></div>
+  <!-- プログレスバー -->
+  <div class="w-full bg-gray-200 rounded-full h-2.5 mb-6">
+    <div data-timer-target="progressBar" class="bg-gradient-to-r from-red-500 to-red-300 h-2.5 rounded-full transition-all duration-300" style="width: 100%"></div>
   </div>
 
+  <!-- メソッド表示 -->
+  <div class="mb-6 text-center p-4 bg-gray-50 rounded-lg shadow-inner">
+    <div data-typing-target="method" class="font-bold text-3xl text-red-700 tracking-wide"></div>
+  </div>
+
+  <!-- 入力フィールド -->
   <div class="text-center">
-    <input data-timer-target="input" data-typing-target="input" type="text" placeholder="ここにタイピング" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-red-500">
+    <input data-timer-target="input" data-typing-target="input" type="text" placeholder="ここにタイピング"
+           class="w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-lg transition-all duration-200"
+           autocomplete="off">
   </div>
 
   <%= form_with model: @game, url: finish_game_path(@game), method: :post, class: 'hidden', data: { typing_target: 'finishForm' } do |f| %>

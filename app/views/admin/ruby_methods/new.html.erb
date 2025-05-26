@@ -1,0 +1,79 @@
+<% content_for :page_title do %>
+  新規メソッド追加
+<% end %>
+
+<div class="mb-6">
+  <div class="flex items-center mb-4">
+    <%= link_to admin_ruby_methods_path, class: "text-gray-600 hover:text-gray-900 mr-2" do %>
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+      </svg>
+    <% end %>
+    <h1 class="text-2xl font-semibold text-gray-800">新規Rubyメソッド追加</h1>
+  </div>
+
+  <p class="text-gray-600 mb-6">RubyTapゲームで使用する新しいメソッドを登録します。</p>
+</div>
+
+<div class="bg-white rounded-lg shadow-md p-6">
+  <%= form_with(model: [:admin, @ruby_method], local: true, class: "space-y-6") do |f| %>
+    <% if @ruby_method.errors.any? %>
+      <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-6">
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <svg class="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+          </div>
+          <div class="ml-3">
+            <h3 class="text-sm font-medium text-red-700">
+              <%= pluralize(@ruby_method.errors.count, "error") %> prohibited this method from being saved:
+            </h3>
+            <div class="mt-2 text-sm text-red-700">
+              <ul class="list-disc pl-5">
+                <% @ruby_method.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div>
+        <div class="mb-6">
+          <%= f.label :name, "メソッド名", class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%= f.text_field :name, placeholder: "例: each", class: "w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent" %>
+          <p class="mt-1 text-xs text-gray-500">メソッド名のみを入力してください (括弧や引数は含めないでください)</p>
+        </div>
+
+        <div class="mb-6">
+          <%= f.label :class_name, "クラス名", class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%= f.text_field :class_name, placeholder: "例: Array", class: "w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent" %>
+          <p class="mt-1 text-xs text-gray-500">このメソッドが属するクラス名を入力してください</p>
+        </div>
+
+        <div class="mb-6">
+          <%= f.label :ruby_module_id, "モジュール", class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%= f.collection_select :ruby_module_id, @ruby_modules, :id, :name, { include_blank: "モジュールを選択" }, class: "w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent" %>
+          <p class="mt-1 text-xs text-gray-500">このメソッドが属するモジュールを選択してください</p>
+        </div>
+      </div>
+
+      <div>
+        <div class="mb-6">
+          <%= f.label :description, "説明", class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%= f.text_area :description, rows: 6, placeholder: "このメソッドの説明を入力してください", class: "w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent" %>
+          <p class="mt-1 text-xs text-gray-500">ゲーム結果画面に表示される説明文です</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="pt-4 border-t border-gray-200 flex justify-end space-x-3">
+      <%= link_to "キャンセル", admin_ruby_methods_path, class: "px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2" %>
+      <%= f.submit "保存する", class: "px-4 py-2 bg-red-600 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" %>
+    </div>
+  <% end %>
+</div>

@@ -64,3 +64,15 @@ build-iPhoneSimulator/
 !/app/assets/builds/.keep
 /config/master.key
 /public/assets
+
+# セキュリティ関連ファイル
+/config/secrets.yml
+/config/master.key
+/.env
+/.env.local
+/.env.production
+/.env.development
+/admin_credentials.txt
+/passwords.txt
+*password*
+*secret*

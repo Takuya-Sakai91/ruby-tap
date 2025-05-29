@@ -88,10 +88,20 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # Enable DNS rebinding protection and other `Host` header attacks.
-  # config.hosts = [
-  #   "example.com",     # Allow requests from example.com
-  #   /.*\.example\.com/ # Allow requests from subdomains like `www.example.com`
-  # ]
+  config.hosts = [
+    "ruby-tap.fly.dev",     # Allow requests from production domain
+    /.*\.fly\.dev/          # Allow requests from fly.dev subdomains
+  ]
   # Skip DNS rebinding protection for the default health check endpoint.
-  # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+  config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+
+  # 本番環境での管理画面セキュリティ強化
+  config.force_ssl = true
+
+  # セッションセキュリティの強化
+  config.session_store :cookie_store,
+    key: '_ruby_tap_session',
+    secure: true,
+    httponly: true,
+    same_site: :strict
 end

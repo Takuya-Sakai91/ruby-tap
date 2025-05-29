@@ -1,0 +1,66 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'securerandom'
+
+puts "🚀 Ruby Tap 管理者セットアップスクリプト"
+puts "=" * 50
+
+# 管理者情報の設定
+print "管理者メールアドレス (デフォルト: tkyntm0927@gmail.com): "
+email = gets.chomp
+email = 'tkyntm0927@gmail.com' if email.empty?
+
+print "管理者ユーザー名 (デフォルト: tkyntm0927): "
+username = gets.chomp
+username = 'tkyntm0927' if username.empty?
+
+puts "\n🔐 パスワード設定:"
+puts "1. 自分で設定する（推奨）"
+puts "2. ランダム生成する"
+print "選択 (1/2): "
+choice = gets.chomp
+
+if choice == "2"
+  password = SecureRandom.alphanumeric(16) + "!@#"
+  puts "📝 ランダムパスワードを生成しました"
+else
+  loop do
+    print "管理者パスワード（8文字以上）: "
+    password = gets.chomp
+
+    if password.length < 8
+      puts "❌ パスワードは8文字以上で設定してください"
+      next
+    end
+
+    print "パスワード確認: "
+    password_confirm = gets.chomp
+
+    if password == password_confirm
+      break
+    else
+      puts "❌ パスワードが一致しません。再度入力してください"
+    end
+  end
+end
+
+puts "\n📝 設定情報:"
+puts "Email: #{email}"
+puts "Username: #{username}"
+puts "Password: #{password}"
+
+puts "\n🔧 fly.io環境変数を設定中..."
+
+# fly.ioに環境変数を設定
+system("fly secrets set ADMIN_EMAIL='#{email}' ADMIN_USERNAME='#{username}' ADMIN_PASSWORD='#{password}'")
+
+puts "\n✅ 環境変数の設定が完了しました"
+puts "\n📋 次のステップ:"
+puts "1. fly deploy でアプリをデプロイ"
+puts "2. fly ssh console -C 'bin/rails admin:create' で管理者を作成"
+puts "3. https://ruby-tap.fly.dev/admin にアクセス"
+puts "4. Email: #{email}, Password: #{password} でログイン"
+puts "\n🔒 セキュリティ注意事項:"
+puts "- このパスワードを安全な場所に保存してください"
+puts "- 定期的にパスワードを変更することを推奨します"

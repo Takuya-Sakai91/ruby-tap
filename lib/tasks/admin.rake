@@ -3,9 +3,16 @@
 namespace :admin do
   desc '管理者ユーザーを作成'
   task create: :environment do
-    email = ENV['ADMIN_EMAIL'] || 'tkyntm0927@gmail.com'
+    email = ENV['ADMIN_EMAIL']
     password = ENV['ADMIN_PASSWORD']
-    username = ENV['ADMIN_USERNAME'] || 'tkyntm0927'
+    username = ENV['ADMIN_USERNAME']
+
+    # 必須環境変数のチェック
+    if email.blank?
+      puts "❌ ADMIN_EMAIL環境変数が設定されていません"
+      puts "🔧 設定方法: fly secrets set ADMIN_EMAIL='あなたのメールアドレス'"
+      exit 1
+    end
 
     # パスワードが設定されていない場合はランダム生成
     if password.blank?
@@ -15,6 +22,9 @@ namespace :admin do
       puts "🔧 次回からは環境変数を設定してください:"
       puts "   fly secrets set ADMIN_PASSWORD='あなたの任意のパスワード'"
     end
+
+    # ユーザー名が設定されていない場合はメールアドレスから生成
+    username = email.split('@').first if username.blank?
 
     admin_user = User.find_or_create_by(email: email) do |user|
       user.username = username
@@ -45,8 +55,13 @@ namespace :admin do
 
   desc '管理者ユーザーのパスワードをリセット'
   task reset_password: :environment do
-    email = ENV['ADMIN_EMAIL'] || 'tkyntm0927@gmail.com'
+    email = ENV['ADMIN_EMAIL']
     new_password = ENV['NEW_PASSWORD'] || SecureRandom.alphanumeric(16) + "!@#"
+
+    if email.blank?
+      puts "❌ ADMIN_EMAIL環境変数が設定されていません"
+      exit 1
+    end
 
     admin_user = User.find_by(email: email, admin: true)
 

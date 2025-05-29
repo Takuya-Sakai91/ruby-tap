@@ -7,13 +7,26 @@ puts "🚀 Ruby Tap 管理者セットアップスクリプト"
 puts "=" * 50
 
 # 管理者情報の設定
-print "管理者メールアドレス (デフォルト: tkyntm0927@gmail.com): "
-email = gets.chomp
-email = 'tkyntm0927@gmail.com' if email.empty?
+loop do
+  print "管理者メールアドレス: "
+  email = gets.chomp
 
-print "管理者ユーザー名 (デフォルト: tkyntm0927): "
+  if email.empty?
+    puts "❌ メールアドレスは必須です"
+    next
+  end
+
+  unless email.include?('@')
+    puts "❌ 有効なメールアドレスを入力してください"
+    next
+  end
+
+  break
+end
+
+print "管理者ユーザー名 (空白でメールアドレスから自動生成): "
 username = gets.chomp
-username = 'tkyntm0927' if username.empty?
+username = email.split('@').first if username.empty?
 
 puts "\n🔐 パスワード設定:"
 puts "1. 自分で設定する（推奨）"
@@ -58,7 +71,7 @@ system("fly secrets set ADMIN_EMAIL='#{email}' ADMIN_USERNAME='#{username}' ADMI
 puts "\n✅ 環境変数の設定が完了しました"
 puts "\n📋 次のステップ:"
 puts "1. fly deploy でアプリをデプロイ"
-puts "2. fly ssh console -C 'bin/rails admin:create' で管理者を作成"
+puts "2. fly ssh console -C '/rails/bin/rails admin:create' で管理者を作成"
 puts "3. https://ruby-tap.fly.dev/admin にアクセス"
 puts "4. Email: #{email}, Password: #{password} でログイン"
 puts "\n🔒 セキュリティ注意事項:"

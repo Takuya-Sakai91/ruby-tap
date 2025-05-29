@@ -1,19 +1,19 @@
 # frozen_string_literal: true
 
 # 管理者ユーザーの作成
-admin_email = ENV.fetch('ADMIN_EMAIL', 'tkyntm0927@gmail.com')
+admin_email = ENV['ADMIN_EMAIL']
 admin_password = ENV['ADMIN_PASSWORD']
 
-# パスワードが設定されていない場合は警告を出して処理をスキップ
-if admin_password.blank?
+# 環境変数が設定されていない場合は警告を出して処理をスキップ
+if admin_email.blank? || admin_password.blank?
   puts "⚠️  管理者ユーザーの作成をスキップしました"
-  puts "💡 理由: ADMIN_PASSWORD環境変数が設定されていません"
+  puts "💡 理由: ADMIN_EMAIL または ADMIN_PASSWORD環境変数が設定されていません"
   puts "🔧 管理者を作成するには以下を実行してください:"
-  puts "   1. fly secrets set ADMIN_PASSWORD='あなたの任意のパスワード'"
+  puts "   1. fly secrets set ADMIN_EMAIL='あなたのメールアドレス' ADMIN_PASSWORD='あなたのパスワード'"
   puts "   2. rails admin:create"
 else
   admin_user = User.find_or_create_by(email: admin_email) do |user|
-    user.username = ENV.fetch('ADMIN_USERNAME', 'tkyntm0927')
+    user.username = ENV['ADMIN_USERNAME'] || admin_email.split('@').first
     user.password = admin_password
     user.password_confirmation = admin_password
     user.admin = true

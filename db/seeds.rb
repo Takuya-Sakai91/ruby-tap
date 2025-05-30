@@ -1,31 +1,5 @@
 # frozen_string_literal: true
 
-# 管理者ユーザーの作成
-admin_email = ENV['ADMIN_EMAIL']
-admin_password = ENV['ADMIN_PASSWORD']
-
-# 環境変数が設定されていない場合は警告を出して処理をスキップ
-if admin_email.blank? || admin_password.blank?
-  puts "⚠️  管理者ユーザーの作成をスキップしました"
-  puts "💡 理由: ADMIN_EMAIL または ADMIN_PASSWORD環境変数が設定されていません"
-  puts "🔧 管理者を作成するには以下を実行してください:"
-  puts "   1. fly secrets set ADMIN_EMAIL='あなたのメールアドレス' ADMIN_PASSWORD='あなたのパスワード'"
-  puts "   2. rails admin:create"
-else
-  admin_user = User.find_or_create_by(email: admin_email) do |user|
-    user.username = ENV['ADMIN_USERNAME'] || admin_email.split('@').first
-    user.password = admin_password
-    user.password_confirmation = admin_password
-    user.admin = true
-  end
-
-  if admin_user.persisted?
-    puts "管理者ユーザーが作成されました: #{admin_user.email}"
-  else
-    puts "管理者ユーザーの作成に失敗しました: #{admin_user.errors.full_messages}"
-  end
-end
-
 # RubyModuleの作成
 array_module = RubyModule.find_or_create_by!(name: 'Array')
 hash_module = RubyModule.find_or_create_by!(name: 'Hash')

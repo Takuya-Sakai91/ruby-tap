@@ -121,6 +121,8 @@ GEM
     erubi (1.13.1)
     globalid (1.2.1)
       activesupport (>= 6.1)
+    heroicon (1.0.0)
+      rails (>= 5.2)
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
     importmap-rails (2.1.0)
@@ -343,6 +345,7 @@ DEPENDENCIES
   devise-i18n
   dockerfile-rails (>= 1.7)
   error_highlight (>= 0.4.0)
+  heroicon
   importmap-rails
   jbuilder
   kaminari

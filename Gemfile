@@ -18,6 +18,9 @@ gem "puma", ">= 5.0"
 # Use Tailwind CSS [https://github.com/rails/tailwindcss-rails]
 gem "tailwindcss-rails", "~> 3.3.1"
 
+# Heroicons for Rails [https://github.com/bharget/heroicon]
+gem "heroicon"
+
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 

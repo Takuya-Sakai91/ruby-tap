@@ -1,12 +1,149 @@
-<div class="mx-auto">
-  <h1 class="text-2xl font-bold mb-4 text-center">RubyTap</h1>
+<div class="mx-auto max-w-7xl">
+  <!-- ヒーローセクション -->
+  <div class="text-center mb-16">
+    <h1 class="text-5xl font-bold mb-8">
+      <span class="text-gray-800">Rubyメソッドを</span>
+      <span class="text-red-600">タイピング</span>
+      <span class="text-gray-800">で覚えよう</span>
+    </h1>
 
-  <div>
-    <p class="mb-4 text-center">Rubyメソッドも学べるタイピングゲーム！</p>
-    <p class="mb-4 text-center">60秒間でできるだけ多くのRubyメソッドを正確にタイピングしましょう！</p>
+    <div class="mb-12">
+      <p class="text-xl text-gray-600 mb-4 leading-relaxed max-w-3xl mx-auto">
+        RubyTapは、タイピング練習をしながらRubyメソッドも覚えられる学習ツールです。
+        プログラミングスキルと入力速度を同時に向上させましょう。
+      </p>
+    </div>
+
+    <div class="flex flex-col md:flex-row items-center justify-center gap-6">
+      <%= link_to "今すぐタイピングを始める", new_game_path, class: "bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-8 rounded-lg text-lg transition-colors duration-200 shadow-lg" %>
+      <button class="border-2 border-red-600 text-red-600 hover:bg-red-50 font-bold py-4 px-8 rounded-lg text-lg transition-colors duration-200" onclick="scrollToHowTo()">
+        遊び方を見る
+      </button>
+    </div>
   </div>
 
-  <div class="text-center">
-    <%= link_to "ゲームを始める", new_game_path, class: "bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" %>
+  <!-- 特徴セクション -->
+  <div class="mb-20">
+    <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">RubyTapの特徴</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 px-4">
+      <!-- Ruby特化 -->
+      <div class="bg-white rounded-xl shadow-lg p-8 text-center border border-gray-100 hover:shadow-xl transition-shadow duration-300">
+        <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+          <%= heroicon "code-bracket", variant: :outline, options: { class: "w-8 h-8 text-red-600" } %>
+        </div>
+        <h3 class="text-xl font-bold text-gray-800 mb-4">Ruby特化</h3>
+        <p class="text-gray-600 text-sm leading-relaxed">
+          出題されるのはRubyのメソッドだけ。タイピングしながらメソッドの名前や使い方を自然に覚えられます。
+        </p>
+      </div>
+
+      <!-- 厳選されたメソッド -->
+      <div class="bg-white rounded-xl shadow-lg p-8 text-center border border-gray-100 hover:shadow-xl transition-shadow duration-300">
+        <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+          <%= heroicon "list-bullet", variant: :outline, options: { class: "w-8 h-8 text-red-600" } %>
+        </div>
+        <h3 class="text-xl font-bold text-gray-800 mb-4">厳選されたメソッド</h3>
+        <p class="text-gray-600 text-sm leading-relaxed">
+          Ruby学習において重要なメソッドを厳選して出題。実践的な知識が身につきます。
+        </p>
+      </div>
+
+      <!-- 手軽に練習 -->
+      <div class="bg-white rounded-xl shadow-lg p-8 text-center border border-gray-100 hover:shadow-xl transition-shadow duration-300">
+        <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+          <%= heroicon "clock", variant: :outline, options: { class: "w-8 h-8 text-red-600" } %>
+        </div>
+        <h3 class="text-xl font-bold text-gray-800 mb-4">手軽に練習</h3>
+        <p class="text-gray-600 text-sm leading-relaxed">
+          会員登録不要ですぐに始められます。短時間の練習を積み重ねてスキルアップしましょう。
+        </p>
+      </div>
+
+      <!-- 成長の可視化 -->
+      <div class="bg-white rounded-xl shadow-lg p-8 text-center border border-gray-100 hover:shadow-xl transition-shadow duration-300">
+        <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+          <%= heroicon "chart-bar", variant: :outline, options: { class: "w-8 h-8 text-red-600" } %>
+        </div>
+        <h3 class="text-xl font-bold text-gray-800 mb-4">成長の可視化</h3>
+        <p class="text-gray-600 text-sm leading-relaxed">
+          タイピング速度や正確さを記録し、自分の成長を確認できます。会員登録すればさらに詳細な分析が可能です。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTAセクション -->
+  <div class="bg-slate-700 rounded-2xl mx-4 mb-20 py-16 px-8">
+    <div class="text-center max-w-4xl mx-auto">
+      <h2 class="text-3xl font-bold text-white mb-6">Ruby学習を加速させよう</h2>
+      <p class="text-lg text-gray-300 leading-relaxed mb-10">
+        タイピングの練習だけでなく、Rubyの知識も同時に身につけられます。<br>会員登録すれば、あなたの成長を記録し、より効果的な学習が可能になります。
+      </p>
+      <div class="flex flex-col md:flex-row items-center justify-center gap-6">
+        <%= link_to "タイピングを始める", new_game_path, class: "bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-8 rounded-lg text-lg transition-colors duration-200 shadow-lg" %>
+        <%= link_to "会員登録する", new_user_registration_path, class: "bg-white hover:bg-gray-50 text-gray-800 font-bold py-4 px-8 rounded-lg text-lg transition-colors duration-200 shadow-lg" %>
+      </div>
+    </div>
+  </div>
+
+  <!-- 遊び方セクション -->
+  <div id="how-to-play" class="mb-16">
+    <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">遊び方</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 px-4">
+      <!-- ステップ1 -->
+      <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition-shadow duration-300">
+        <div class="flex items-center mb-4">
+          <div class="bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold text-sm mr-3">1</div>
+          <h3 class="font-bold text-lg text-gray-800">ボタンをクリック</h3>
+        </div>
+        <p class="text-gray-600 text-sm leading-relaxed">
+          「今すぐタイピングを始める」をクリックしてゲームスタート画面に移動します。
+        </p>
+      </div>
+
+      <!-- ステップ2 -->
+      <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition-shadow duration-300">
+        <div class="flex items-center mb-4">
+          <div class="bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold text-sm mr-3">2</div>
+          <h3 class="font-bold text-lg text-gray-800">ゲーム開始</h3>
+        </div>
+        <p class="text-gray-600 text-sm leading-relaxed">
+          スペースキーまたはEnterキーでスタート。60秒間のタイピングゲームが始まります。
+        </p>
+      </div>
+
+      <!-- ステップ3 -->
+      <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition-shadow duration-300">
+        <div class="flex items-center mb-4">
+          <div class="bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold text-sm mr-3">3</div>
+          <h3 class="font-bold text-lg text-gray-800">タイピング実行</h3>
+        </div>
+        <p class="text-gray-600 text-sm leading-relaxed">
+          画面に表示されるRubyメソッドを正確にタイピングしましょう。
+        </p>
+      </div>
+
+      <!-- ステップ4 -->
+      <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition-shadow duration-300">
+        <div class="flex items-center mb-4">
+          <div class="bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold text-sm mr-3">4</div>
+          <h3 class="font-bold text-lg text-gray-800">結果確認</h3>
+        </div>
+        <p class="text-gray-600 text-sm leading-relaxed">
+          タイピング速度、正確性、出題されたメソッドを確認できます。
+        </p>
+      </div>
+    </div>
+
+    <div class="text-center mt-8">
+      <p class="text-sm text-gray-500">※ ゲーム中にEscキーを押すと、いつでもやり直すことができます。</p>
+    </div>
   </div>
 </div>
+
+<script>
+  function scrollToHowTo() {
+    document.getElementById('how-to-play').scrollIntoView({ behavior: 'smooth' });
+  }
+</script>

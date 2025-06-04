@@ -1,20 +1,24 @@
 <div class="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
-  <h2 class="text-2xl font-bold mb-6 text-center"><%= t('.forgot_your_password') %></h2>
+  <h2 class="text-2xl font-bold mb-6 text-center text-gray-800"><%= t('.password_reset') %></h2>
+
+  <p class="text-gray-600 text-sm mb-6 leading-relaxed">
+    <%= t('.instruction') %>
+  </p>
 
   <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
     <%= render "users/shared/error_messages", resource: resource %>
 
     <div class="mb-6">
-      <%= f.label :email, class: "block mb-2 font-medium text-gray-700" %>
-      <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-red-500" %>
+      <%= f.label :email, class: "block mb-2 text-sm font-medium text-gray-700" %>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500" %>
     </div>
 
     <div class="mb-6">
-      <%= f.submit t('.send_me_reset_password_instructions'), class: "w-full bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500" %>
+      <%= f.submit t('.send_reset_link'), class: "w-full bg-red-500 text-white py-3 px-4 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 font-medium" %>
     </div>
   <% end %>
 
   <div class="text-center">
-    <%= render "users/shared/links" %>
+    <%= link_to t('.back_to_login'), new_session_path(resource_name), class: "text-red-600 hover:text-red-800 text-sm font-medium" %>
   </div>
 </div>

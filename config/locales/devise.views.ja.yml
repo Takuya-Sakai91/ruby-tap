@@ -116,6 +116,7 @@ ja:
       already_signed_out: 既にログアウト済みです。
       new:
         sign_in: ログイン
+        no_account: アカウントをお持ちでないですか？
       signed_in: ログインしました。
       signed_out: ログアウトしました。
     shared:

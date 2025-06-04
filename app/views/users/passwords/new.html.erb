@@ -6,11 +6,9 @@
   </p>
 
   <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-    <%= render "users/shared/error_messages", resource: resource %>
-
     <div class="mb-6">
       <%= f.label :email, class: "block mb-2 text-sm font-medium text-gray-700" %>
-      <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500" %>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", required: true, class: "w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500" %>
     </div>
 
     <div class="mb-6">

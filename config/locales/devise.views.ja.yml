@@ -109,6 +109,11 @@ ja:
         we_need_your_current_password_to_confirm_your_changes: 変更を反映するには現在のパスワードを入力してください
       new:
         sign_up: アカウント登録
+        member_registration: 会員登録
+        already_have_account: すでにアカウントをお持ちですか？
+        terms_agreement: 会員登録することで、利用規約およびプライバシーポリシーに同意したことになります。
+        password_with_length: パスワード（8文字以上）
+        password_confirmation_label: パスワード（確認用）
       signed_up: アカウント登録が完了しました。
       signed_up_but_inactive: ログインするためには、アカウントを有効化してください。
       signed_up_but_locked: アカウントがロックされているためログインできません。

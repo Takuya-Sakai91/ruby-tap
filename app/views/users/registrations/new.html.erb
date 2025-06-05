@@ -1,39 +1,41 @@
 <div class="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
-  <h2 class="text-2xl font-bold mb-6 text-center"><%= t('.sign_up') %></h2>
+  <h2 class="text-2xl font-bold mb-6 text-center text-gray-800"><%= t('.member_registration') %></h2>
 
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-    <%= render "users/shared/error_messages", resource: resource %>
+    <div class="mb-4">
+      <%= f.label :username, "ユーザー名", class: "block mb-2 text-sm font-medium text-gray-700" %>
+      <%= f.text_field :username, autofocus: true, required: true, minlength: 3, maxlength: 20, pattern: "[a-zA-Z0-9_]+", class: "w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focpus:ring-red-500 focus:border-red-500" %>
+      <p class="mt-1 text-xs text-gray-500">※英数字とアンダースコアのみ使用可能（3〜20文字）</p>
+    </div>
 
-    <div class="mb-6">
-      <%= f.label :username, "ユーザー名", class: "block mb-2 font-medium text-gray-700" %>
-      <%= f.text_field :username, autofocus: true, class: "w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-red-500" %>
-      <p class="mt-1 text-sm text-gray-500">※英数字とアンダースコアのみ使用可能（3〜20文字）</p>
+    <div class="mb-4">
+      <%= f.label :email, class: "block mb-2 text-sm font-medium text-gray-700" %>
+      <%= f.email_field :email, autocomplete: "email", required: true, class: "w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500" %>
+    </div>
+
+    <div class="mb-4">
+      <%= f.label :password, t('.password_with_length'), class: "block mb-2 text-sm font-medium text-gray-700" %>
+      <%= f.password_field :password, autocomplete: "new-password", required: true, minlength: 8, class: "w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500" %>
     </div>
 
     <div class="mb-6">
-      <%= f.label :email, class: "block mb-2 font-medium text-gray-700" %>
-      <%= f.email_field :email, autocomplete: "email", class: "w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-red-500" %>
+      <%= f.label :password_confirmation, t('.password_confirmation_label'), class: "block mb-2 text-sm font-medium text-gray-700" %>
+      <%= f.password_field :password_confirmation, autocomplete: "new-password", required: true, class: "w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500" %>
     </div>
 
     <div class="mb-6">
-      <%= f.label :password, class: "block mb-2 font-medium text-gray-700" %>
-      <% if @minimum_password_length %>
-        <span class="text-sm text-gray-500"><%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %></span>
-      <% end %>
-      <%= f.password_field :password, autocomplete: "new-password", class: "w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-red-500" %>
-    </div>
-
-    <div class="mb-6">
-      <%= f.label :password_confirmation, class: "block mb-2 font-medium text-gray-700" %>
-      <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-red-500" %>
-    </div>
-
-    <div class="mb-6">
-      <%= f.submit t('.sign_up'), class: "w-full bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500" %>
+      <%= f.submit t('.member_registration'), class: "w-full bg-red-500 text-white py-3 px-4 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 font-medium" %>
     </div>
   <% end %>
 
+  <div class="text-center mb-4">
+    <span class="text-gray-600 text-sm"><%= t('.already_have_account') %></span>
+    <%= link_to t('users.shared.links.sign_in'), new_session_path(resource_name), class: "text-red-600 hover:text-red-800 font-medium text-sm ml-1" %>
+  </div>
+
   <div class="text-center">
-    <%= render "users/shared/links" %>
+    <p class="text-gray-500 text-xs leading-relaxed">
+      <%= t('.terms_agreement') %>
+    </p>
   </div>
 </div>

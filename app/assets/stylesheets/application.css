@@ -14,6 +14,38 @@
  *= require_self
  */
 
+/* 文字フォーカス機能のスタイル */
+.method-char {
+  color: #374151; /* デフォルトの文字色 */
+  position: relative;
+}
+
+.method-char.typed-char {
+  color: #16a34a; /* 入力済みの文字は緑色 */
+  opacity: 0.7;
+}
+
+.method-char.current-char {
+  color: #dc2626; /* 現在入力中の文字は赤色 */
+  background-color: #fef2f2; /* 薄い背景色 */
+  border-radius: 4px;
+  padding: 2px 4px;
+  animation: currentCharPulse 1.5s infinite;
+}
+
+/* 現在文字のアニメーション */
+@keyframes currentCharPulse {
+  0%,
+  100% {
+    background-color: #fef2f2;
+    transform: scale(1);
+  }
+  50% {
+    background-color: #fee2e2;
+    transform: scale(1.05);
+  }
+}
+
 /* 正解エフェクト */
 .correct-answer {
   animation: greenPulse 0.5s ease;

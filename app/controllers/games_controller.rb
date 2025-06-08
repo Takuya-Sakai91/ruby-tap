@@ -8,7 +8,7 @@ class GamesController < ApplicationController
 
   def show
     @game = Game.find(params[:id])
-    @ruby_methods = @game.ruby_methods
+    @ruby_methods = @game.ruby_methods.preload(:ruby_module)
   end
 
   def new; end
